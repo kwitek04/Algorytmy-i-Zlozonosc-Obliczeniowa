@@ -1,0 +1,9 @@
+*.exe
+*.o
+*.out
+*.app
+
+*.csv
+
+.vscode/
+build/
