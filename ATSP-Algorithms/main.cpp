@@ -1,5 +1,9 @@
 #include <iostream>
-#include "AtspProblem.h"
+#include "AtspGraph.h"
+#include "BruteForce.h"
+#include "NearestNeighbor.h"
+#include "RepetitiveNearestNeighbor.h"
+#include "RandomSearch.h"
 #include <string> // Biblioteka do obsługi ciągów znaków i nazw plików
 #include <chrono>   // Biblioteka potrzebna mierzenia czasu
 #include <fstream>  // Biblioteka do tworzenia i zapisu pliku CSV
@@ -8,8 +12,6 @@
 // Biblioteki potrzebne do generowania liczb losowych
 #include <cstdlib> 
 #include <ctime>   
-
-
 
 // Struktura grupująca ścieżkę do pliku i rozmiar grafu
 struct TestInstance {
@@ -70,7 +72,7 @@ int main() {
     srand(time(NULL)); 
 
     // Główny obiekt przechowujący macierz i wyniki
-    AtspProblem problem;
+    AtspGraph graph;
     int choice = -1;
 
     // Wczytanie optymalnych wyników
@@ -92,13 +94,13 @@ int main() {
                 string filename;
                 cout << "Podaj nazwe pliku: ";
                 cin >> filename;
-                if (problem.loadFromFile(filename)) {
+                if (graph.loadFromFile(filename)) {
                     cout << "Plik wczytany pomyslnie!" << endl;
                 }
                 break;
             }
             case 2:
-                problem.displayData();
+                graph.displayData();
                 break;
             case 3: {
                 int algChoice;
@@ -112,22 +114,22 @@ int main() {
                 cin >> algChoice;
 
                 if (algChoice == 1) {
-                    problem.runBruteForce();
+                    runBruteForce(graph.getMatrix(), graph.getSize());
                 } 
                 else if (algChoice == 2) {
                     int startCity;
                     cout << "Podaj miasto startowe: "; 
                     cin >> startCity;
-                    problem.runNearestNeighbor(startCity);
+                    runNearestNeighbor(graph.getMatrix(), graph.getSize(), startCity);
                 } 
                 else if (algChoice == 3) {
-                    problem.runRepetitiveNearestNeighbor();
+                    runRepetitiveNearestNeighbor(graph.getMatrix(), graph.getSize());
                 } 
                 else if (algChoice == 4) {
                     int iterations;
                     cout << "Podaj liczbe losowan: "; // algorytmowi loswemu trzeba podać liczbę iteracji
                     cin >> iterations;
-                    problem.runRandom(iterations);
+                    runRandom(graph.getMatrix(), graph.getSize(), iterations);
                 }
                 else if (algChoice == 5) {
                     int iterations;
@@ -135,10 +137,10 @@ int main() {
                     cin >> iterations;
                     
                     cout << "\nWyniki: " << endl;
-                    problem.runBruteForce();
-                    problem.runNearestNeighbor(0); // algorytm NN uruchamiamy domyślnie z miastem startopwym 0
-                    problem.runRepetitiveNearestNeighbor();
-                    problem.runRandom(iterations);
+                    runBruteForce(graph.getMatrix(), graph.getSize());
+                    runNearestNeighbor(graph.getMatrix(), graph.getSize(), 0); // algorytm NN uruchamiamy domyślnie z miastem startopwym 0
+                    runRepetitiveNearestNeighbor(graph.getMatrix(), graph.getSize());
+                    runRandom(graph.getMatrix(), graph.getSize(), iterations);
                 }
                 else {
                     cout << "Nieprawidlowy wybor algorytmu!" << endl;
@@ -152,7 +154,7 @@ int main() {
                 cin >> size;
                 cout << "Podaj nazwe pliku do zapisu: ";
                 cin >> filename;
-                problem.generateRandomGraph(size, filename);
+                graph.generateRandomGraph(size, filename);
                 break;
             }
             case 5: {
@@ -228,7 +230,7 @@ int main() {
                     TestInstance test = selected_tests[i];
 
                     // zabezpieczenie na wypadek usunięcia pliku z folderu data
-                    if (!problem.loadFromFile(test.filename)) {
+                    if (!graph.loadFromFile(test.filename)) {
                         cout << "Pominieto test dla N=" << test.n << " (Brak pliku: " << test.filename << ")\n";
                         continue;
                     }
@@ -257,10 +259,10 @@ int main() {
                         auto start = high_resolution_clock::now(); // pozycja startowa pomiaru czasu
                         int currentCost = 0;
                         
-                        if (algTest == 1) currentCost = problem.runBruteForce();
-                        else if (algTest == 2) currentCost = problem.runNearestNeighbor(0);
-                        else if (algTest == 3) currentCost = problem.runRepetitiveNearestNeighbor();
-                        else if (algTest == 4) currentCost = problem.runRandom(randIterations); 
+                        if (algTest == 1) currentCost = runBruteForce(graph.getMatrix(), graph.getSize());
+                        else if (algTest == 2) currentCost = runNearestNeighbor(graph.getMatrix(), graph.getSize(), 0);
+                        else if (algTest == 3) currentCost = runRepetitiveNearestNeighbor(graph.getMatrix(), graph.getSize());
+                        else if (algTest == 4) currentCost = runRandom(graph.getMatrix(), graph.getSize(), randIterations); 
                         
                         auto end = high_resolution_clock::now(); // pozycja końcowa pomiaru czasu
                         totalTime += duration<double, milli>(end - start).count(); // dodajemy do łącznego czasu różnicę końca i startu
