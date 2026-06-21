@@ -15,7 +15,7 @@ Zbiór programów i testów wydajnościowych zrealizowanych w ramach przedmiotó
 
 ### 1. Asymetryczny Problem Komiwojażera (ATSP)
 Aplikacja w języku C++ rozwiązująca problem ATSP za pomocą algorytmów dokładnych i przybliżonych.
-* **Zaimplementowane algorytmy:** Przegląd zupełny (Brute-Force), zachłanne (Nearest Neighbor, Repetitive Nearest Neighbor) oraz algorytm losowy (RAND).
+* **Zaimplementowane algorytmy:** Przegląd zupełny (Brute-Force), zachłanne (Nearest Neighbor, Repetitive Nearest Neighbor), algorytm losowy (RAND), algorytm podziału i ograniczeń (Branch and Bound), symulowane wyżarzanie (Simulated Annealing), algorytm genetyczny.
 * **Cechy projektu:** Dynamiczna alokacja pamięci, pomiar czasu wykonywania, oraz obliczanie błędu względnego. Program potrafi generować losowe instancje grafów oraz wczytywać/zapisywać dane w standardowym formacie **TSPLIB**.
 
 ### 2. Algorytm Dijkstry

@@ -15,7 +15,7 @@ A collection of programs and performance tests implemented as part of the **Algo
 
 ### 1. Asymmetric Traveling Salesman Problem (ATSP)
 A C++ application solving the ATSP using exact and approximation algorithms.
-* **Implemented algorithms:** Exhaustive search (Brute-Force), greedy (Nearest Neighbor, Repetitive Nearest Neighbor), and a random algorithm (RAND).
+* **Implemented algorithms:** Exhaustive search (Brute-Force), greedy (Nearest Neighbor, Repetitive Nearest Neighbor), random algorithm (RAND), Branch and Bound, Simulated Annealing and Genetic algorithm.
 * **Project features:** Dynamic memory allocation, execution time measurement, and relative error calculation. The program can generate random graph instances and read/write data in the standard **TSPLIB** format.
 
 ### 2. Dijkstra's Algorithm
